@@ -1,0 +1,4 @@
+node_modules/
+coontainer-service/node_modules/
+frontend-module/node_modules/
+frontend-service/node_modules/
