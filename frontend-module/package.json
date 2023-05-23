@@ -11,6 +11,8 @@
   "dependencies": {
     "core-js": "^3.8.3",
     "single-spa-vue": "^2.1.0",
+    "ts-loader": "^9.4.2",
+    "typescript": "^5.0.4",
     "vue": "^3.2.13"
   },
   "devDependencies": {
