@@ -28,14 +28,18 @@
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
     </ul>
   </div>
+  <ShipStatus shipName="KUROKIKAZE-1" ></ShipStatus>
 </template>
 
 <script>
+import ShipStatus from './ShipStatus/ShipStatus.vue';
+
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
+    name: "HelloWorld",
+    props: {
+        msg: String
+    },
+    components: { ShipStatus }
 }
 </script>
 

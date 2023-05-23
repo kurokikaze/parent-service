@@ -20,6 +20,8 @@
     "@originjs/vite-plugin-federation": "^1.2.3",
     "@telekom/scale-components": "^3.0.0-beta.134",
     "pinia": "^2.0.36",
+    "single-spa-vue": "^2.5.1",
+    "systemjs-webpack-interop": "^2.3.7",
     "vue": "^3.3.2",
     "vue-router": "^4.2.0"
   },

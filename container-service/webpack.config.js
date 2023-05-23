@@ -2,7 +2,7 @@ const path = require('path');
 const { merge } = require("webpack-merge");
 const singleSpaDefaults = require("webpack-config-single-spa-ts");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const {ModuleFederationPlugin} = require("webpack").container;
+// const {ModuleFederationPlugin} = require("webpack").container;
 
 module.exports = (webpackConfigEnv, argv) => {
   const orgName = "T-Systems";
@@ -15,11 +15,6 @@ module.exports = (webpackConfigEnv, argv) => {
   });
 
   return merge(defaultConfig, {
-    // modify the webpack config however you'd like to by adding to this object
-    // experiments: {
-    //   outputModule: true,
-    // },
-    // entry: path.resolve(__dirname, "./src/main.js"),
     output: {
       publicPath: 'auto',
     },
@@ -32,26 +27,16 @@ module.exports = (webpackConfigEnv, argv) => {
           orgName,
         },
       }),
-      // new ModuleFederationPlugin({
-      //   name: "shipStatus",
-      //   filename: "remoteEntry.js",
-      //   library: {type: 'system'},
-      //   exposes: {
-      //     // "./initMap": "./src/components/ShipStatus.vue",
-      //     // "./Button": "./src/components/Button",
-      //   },
-      //   remotes: {
-      //     appl: "http://localhost:4173/assets/remoteEntry.js",
-      //   },
-      //   remoteType:'module',
-      //   shared: {
-      //     vue: {
-      //       // singleton: true,
-      //       import: false,
-      //       requiredVersion: '^3.0.0'
-      //     }
-      //   }
-      // }),
     ],
+    devServer: {
+      proxy: {
+        "/api": {
+          target: "https://api.spacetraders.io/v2/",
+          changeOrigin: true,
+          secure: false,
+          ws: true,
+        },
+      },
+    },
   });
 };

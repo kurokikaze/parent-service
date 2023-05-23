@@ -2,7 +2,7 @@ const { defineConfig } = require('@vue/cli-service')
 const config = defineConfig({
   transpileDependencies: true,
   configureWebpack: {
-    // entry: './src/main.ts',
+    entry: './src/app.ts',
     module: {
       rules: [
         {
@@ -18,6 +18,8 @@ const config = defineConfig({
     output: {
       libraryTarget: 'system',
     },
+    externals: '@T-Systems/FleetAPI',
+    externalsType: 'system',
   },
 })
 
