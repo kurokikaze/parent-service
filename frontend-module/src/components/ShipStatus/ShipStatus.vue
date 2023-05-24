@@ -3,31 +3,45 @@ import { defineCustomElements } from '@telekom/scale-components/loader';
 defineCustomElements();
 
 export {default} from './ShipStatusCode';
-// import { defineCustomElements } from '@telekom/scale-components/loader';
-// import '@telekom/scale-components/dist/scale-components/scale-components.css';
-// // import { ref } from 'vue'
-// // import {FleetApi} from '../apis/FleetApi';
-// // import {Configuration} from '../apis/runtime';
-// // import type { GetMyShip200Response, Ship } from '@/models';
-// import InventoryVue from './Inventory/ShipInventory.vue';
-
-// defineCustomElements()
-
 </script>
 
 <template>
     <div class="ship-info">
-      <h1 class="green">{{ shipName }}</h1>
-      <scale-button v-text="shipName"></scale-button>
-      <div v-if="'nav' in shipData">
-        Ship data:
-        <div>
-            <p>System stationed on: {{ 'nav' in shipData ? shipData.nav.systemSymbol : 'Unknown' }}</p>
-            <p><scale-icon-user-file-user accessibility-title="Crew"/> {{ shipData.crew.current }} / {{ shipData.crew.capacity }}</p>
+        <div style="max-width: 300px;">
+            <scale-card label="Ship data" style="margin-bottom: 16px;">
+                <h1 class="green">{{ shipName }}</h1>
+                <div v-if="'nav' in shipData">
+                    <div>
+                        <p>System stationed on: <b>{{ 'nav' in shipData ? shipData.nav.systemSymbol : 'Unknown' }}</b></p>
+                        <p>Navigation status: {{ 'nav' in shipData ? shipData.nav.status : 'Unknown' }}</p>
+                        <div v-if="shipData.nav.status === 'DOCKED'">
+                            <scale-button :disabled="docking" @click="undock()">
+                                <div v-if="docking"><scale-loading-spinner/></div><div v-else>Undock</div>
+                            </scale-button>
+                        </div>
+                        <div v-if="shipData.nav.status !== 'DOCKED'">
+                            <scale-button :disabled="docking" @click="dock()">
+                                <div v-if="docking"><scale-loading-spinner/></div><div v-else>Dock</div>
+                            </scale-button>
+                        </div>
+                        <p><scale-icon-user-file-user accessibility-title="Crew"/> {{ shipData.crew.current }} / {{ shipData.crew.capacity }}</p>
+                    </div>
+                </div>
+            </scale-card>
         </div>
-        <div>
-            <InventoryVue v-bind:cargo="shipData.cargo"></InventoryVue>
+        <div style="flex-grow: 1; margin-left: 32px">
+            <scale-card style="height: 100%">
+                <InventoryVue v-bind:cargo="shipData.cargo"></InventoryVue>
+            </scale-card>
         </div>
-      </div>
     </div>
 </template>
+
+<style>
+.ship-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 32px;
+}
+</style>

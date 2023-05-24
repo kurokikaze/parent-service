@@ -1,15 +1,15 @@
 <template>
-  <ShipStatus shipName="KUROKIKAZE-1" ></ShipStatus>
+  <WaypointList msg="Welcome to Your Vue.js App"/>
 </template>
 
 <script>
-import ShipStatus from './components/ShipStatus/ShipStatus.vue'
+import WaypointList from './components/WaypointList/WaypointList';
 
 export default {
   name: 'App',
   components: {
-    ShipStatus
-  }
+    WaypointList
+}
 }
 </script>
 

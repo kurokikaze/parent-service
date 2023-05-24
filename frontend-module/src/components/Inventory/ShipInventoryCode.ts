@@ -16,16 +16,19 @@ export default {
                 type: 'text',
                 label: 'Item',
                 sortable: true,
+                width: 100,
             },
             {
                 type: 'text',
                 label: 'Description',
                 sortable: true,
+                stretchWeight: 1,
             },
             {
                 type: 'number',
                 label: 'Quantity',
                 sortable: true,
+                width: 50,
             },
         ]);
         
