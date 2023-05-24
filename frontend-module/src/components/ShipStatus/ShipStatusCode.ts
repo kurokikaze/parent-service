@@ -3,7 +3,7 @@ import { defineCustomElements } from '@telekom/scale-components/loader';
 import '@telekom/scale-components/dist/scale-components/scale-components.css';
 import InventoryVue from '../Inventory/ShipInventory.vue';
 // @ts-ignore
-import {myFleet} from '@T-Systems/FleetAPI';
+import {myWrapper} from '@T-Systems/FleetAPI';
 
 defineCustomElements()
 
@@ -14,29 +14,51 @@ export default {
     setup(props: {shipName: string}) {
         const shipData = ref<any | {}>({});
         const docking = ref<boolean>(false);
+        const timeToTarget = ref(0);
+
+        myWrapper.onStatusChange((ship: string, status: string) => {
+            if (ship === props.shipName && 'nav' in shipData.value) {
+                shipData.value.nav.status = status;
+            }
+        })
+
+        myWrapper.onFuelChange((ship: string, fuel: number) => {
+            if (ship === props.shipName && 'fuel' in shipData.value) {
+                shipData.value.fuel.current = fuel;
+            }
+        })
+
+        myWrapper.onTravelChange((ship: string, time: number) => {
+            if (ship === props.shipName && 'nav' in shipData.value && shipData.value.nav.status === 'IN_TRANSIT') {
+                timeToTarget.value = time;
+            }
+        })
 
         if (props.shipName) {
-            myFleet.getMyShip({ shipSymbol: props.shipName || "" }).then((response: any) => {
-                shipData.value = response.data;
-                console.dir(response.data);
+            myWrapper.getMyShipData(props.shipName).then((data: any) => {
+                console.dir(data);
+                shipData.value = data;
             });
         }
 
         function undock() {
             docking.value = true;
-            myFleet.orbitShip({ shipSymbol: props.shipName }).then((res: any) => {
+            myWrapper.undock(props.shipName).then((shipNav: any) => {
                 docking.value = false;
-                // console.dir(res.data.nav);
-                shipData.value.nav = res.data.nav;
-            })
+                if (shipNav) {
+                    shipData.value.nav = shipNav;
+                }
+            });
         }
 
         function dock() {
             docking.value = true;
-            myFleet.dockShip({ shipSymbol: props.shipName }).then((res: any) => {
+            myWrapper.dock(props.shipName).then((shipNav: any) => {
                 docking.value = false;
-                shipData.value.nav = res.data.nav;
-            })
+                if (shipNav) {
+                    shipData.value.nav = shipNav;
+                }
+            });
         }
 
         return {
@@ -44,6 +66,7 @@ export default {
             docking,
             dock,
             undock,
+            timeToTarget,
         };
     },
     components: { InventoryVue }
