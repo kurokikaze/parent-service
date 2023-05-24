@@ -54,7 +54,6 @@ export default {
             if (res.data) {
                 resData.value = res;
                 const newRows = convertSystemData(res, 'KUROKIKAZE-1', docked.value, waypoint.value, myWrapper);
-                console.dir(newRows);
                 rows.value = newRows;
             }
         });
@@ -62,7 +61,6 @@ export default {
         return {
             fields: JSON.stringify(fields.value),
             rows,
-            docked,
         };
     },
 }
