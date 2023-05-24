@@ -22,6 +22,12 @@ export default {
             }
         })
 
+        myWrapper.onWaypointChange((ship: string, waypoint: string) => {
+            if (ship === props.shipName && 'fuel' in shipData.value) {
+                shipData.value.nav.waypointSymbol = waypoint;
+            }
+        })
+
         myWrapper.onFuelChange((ship: string, fuel: number) => {
             if (ship === props.shipName && 'fuel' in shipData.value) {
                 shipData.value.fuel.current = fuel;

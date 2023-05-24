@@ -13,26 +13,27 @@ export {default} from './ShipStatusCode';
                 <div v-if="'nav' in shipData">
                     <div>
                         <p>System stationed on: <b>{{ shipData.nav.systemSymbol }}</b></p>
-                        <p>Current waypoint: <b>{{ shipData.nav.waypointSymbol }}</b></p>
+                        <div>
+                            <p v-if="shipData.nav.status === 'IN_TRANSIT'">
+                                <scale-progress-bar
+                                    :percentage="100 - Math.floor((timeToTarget / Math.floor(((new Date(shipData.nav.route.arrival)).getTime() - (new Date(shipData.nav.route.departureTime)).getTime()) / 1000)) * 100)"
+                                    label="Transit time"
+                                    :status-description="`${timeToTarget} second(s) left`"
+                                    show-status="true"
+                                ></scale-progress-bar>
+                            </p>
+                            <p v-else>Current waypoint: <b>{{ shipData.nav.waypointSymbol }}</b></p>
+                        </div>
                         <p>Navigation status: {{ shipData.nav.status }}</p>
                         <div v-if="shipData.nav.status === 'DOCKED'">
                             <scale-button :disabled="docking" @click="undock()">
                                 <div v-if="docking"><scale-loading-spinner/></div><div v-else>Undock</div>
                             </scale-button>
                         </div>
-                        <div v-if="shipData.nav.status === 'IN_ORBIT'">
-                            <scale-button :disabled="docking" @click="dock()">
+                        <div v-if="shipData.nav.status !== 'DOCKED'">
+                            <scale-button :disabled="docking || shipData.nav.status !== 'IN_ORBIT'" @click="dock()">
                                 <div v-if="docking"><scale-loading-spinner/></div><div v-else>Dock</div>
                             </scale-button>
-                        </div>
-                        <div v-if="shipData.nav.status === 'IN_TRANSIT'">
-                            <!--Ship is in transit. Total transit time: {{ timeToTarget }} out of {{ Math.floor(((new Date(shipData.nav.route.arrival)).getTime() - (new Date(shipData.nav.route.departureTime)).getTime()) / 1000) }} seconds.-->
-                            <scale-progress-bar
-                                :percentage="100 - Math.floor((timeToTarget / Math.floor(((new Date(shipData.nav.route.arrival)).getTime() - (new Date(shipData.nav.route.departureTime)).getTime()) / 1000)) * 100)"
-                                label="Transit time"
-                                :status-description="`${timeToTarget} second(s) left`"
-                                show-status="true"
-                            ></scale-progress-bar>
                         </div>
                         <div>
                             <scale-icon-user-file-user accessibility-title="Crew"/> {{ shipData.crew.current }} / {{ shipData.crew.capacity }}
@@ -50,7 +51,7 @@ export {default} from './ShipStatusCode';
             </scale-card>
         </div>
         <div style="flex-grow: 1; margin-left: 32px">
-            <!--<InventoryVue v-bind:cargo="shipData.cargo"></InventoryVue>-->
+            <InventoryVue v-bind:cargo="shipData.cargo"></InventoryVue>
         </div>
     </div>
 </template>
