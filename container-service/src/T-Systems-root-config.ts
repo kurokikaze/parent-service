@@ -14,7 +14,9 @@ const applications = constructApplications({
   },
 });
 const layoutEngine = constructLayoutEngine({ routes, applications });
-console.dir(applications);
-applications.forEach(registerApplication);
-layoutEngine.activate();
-start();
+// console.dir(applications);
+System.import('vue').then(() => {
+  applications.forEach(registerApplication);
+  layoutEngine.activate();
+  start();
+})

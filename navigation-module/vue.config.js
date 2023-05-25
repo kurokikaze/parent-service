@@ -18,7 +18,7 @@ module.exports = defineConfig({
     output: {
       libraryTarget: 'system',
     },
-    externals: '@T-Systems/FleetAPI',
+    externals: ['@T-Systems/FleetAPI', 'vue'],
     externalsType: 'system',
   },
 })

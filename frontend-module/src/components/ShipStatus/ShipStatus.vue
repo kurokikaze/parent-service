@@ -24,7 +24,7 @@ export {default} from './ShipStatusCode';
                             </p>
                             <p v-else>Current waypoint: <b>{{ shipData.nav.waypointSymbol }}</b></p>
                         </div>
-                        <p>Navigation status: {{ shipData.nav.status }}</p>
+                        <p>!Navigation status: {{ shipData.nav.status }}</p>
                         <div v-if="shipData.nav.status === 'DOCKED'">
                             <scale-button :disabled="docking" @click="undock()">
                                 <div v-if="docking"><scale-loading-spinner/></div><div v-else>Undock</div>

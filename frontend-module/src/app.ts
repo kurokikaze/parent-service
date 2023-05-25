@@ -2,10 +2,15 @@ import { h, createApp } from 'vue';
 import singleSpaVue from 'single-spa-vue';
 import App from './App.vue';
 
+console.log('Vue imports')
+console.dir(createApp)
+console.dir(h)
 const vueLifecycles = singleSpaVue({
+  // @ts-ignore
   createApp,
   appOptions: {
     render() {
+      // @ts-ignore
       return h(App, {
         // single-spa props are available on the "this" object. Forward them to your component as needed.
         // https://single-spa.js.org/docs/building-applications#lifecycle-props

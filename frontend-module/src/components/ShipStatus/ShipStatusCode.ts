@@ -16,6 +16,8 @@ export default {
         const docking = ref<boolean>(false);
         const timeToTarget = ref(0);
 
+        myWrapper.getMyShips()
+
         myWrapper.onStatusChange((ship: string, status: string) => {
             if (ship === props.shipName && 'nav' in shipData.value) {
                 shipData.value.nav.status = status;

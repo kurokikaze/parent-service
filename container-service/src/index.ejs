@@ -55,21 +55,21 @@
   <!-- <script type="systemjs-importmap" src="/importmap.json"></script> -->
 
   <% if (isLocal) { %>
+  <!--  -->
   <script type="systemjs-importmap">
     {
       "imports": {
         "@single-spa/welcome": "https://unpkg.com/single-spa-welcome/dist/single-spa-welcome.js",
-        "vue": "https://unpkg.com/vue@3/dist/vue.global.js",
         "@T-Systems/root-config": "//localhost:9000/T-Systems-root-config.js",
         "@T-Systems/frontend-module": "http://localhost:8080/js/main.js",
+        "vue": "https://cdn.jsdelivr.net/npm/vue@3.2.13/dist/vue.global.js",
         "@T-Systems/navigation-module": "http://localhost:8082/js/main.js",
         "@T-Systems/FleetAPI": "8500"
       }
     }
   </script>
   <% } %>
-
-  <!--
+    <!--
     If you need to support Angular applications, uncomment the script tag below to ensure only one instance of ZoneJS is loaded
     Learn more about why at https://single-spa.js.org/docs/ecosystem-angular/#zonejs
   -->
@@ -83,6 +83,11 @@
   <script src="https://cdn.jsdelivr.net/npm/systemjs@6.8.3/dist/system.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/systemjs@6.8.3/dist/extras/amd.min.js"></script>
   <% } %>
+  <script src="https://cdn.jsdelivr.net/npm/vue@3.2.13/dist/vue.global.js"></script>
+  <script>
+      Object.getPrototypeOf(System).firstGlobalProp = true;
+      System.set(System.resolve('vue'), window.Vue)
+  </script>
 
 </head>
 <body>

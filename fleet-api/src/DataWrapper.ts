@@ -55,6 +55,16 @@ export class DataWrapper {
         }
     }
 
+    async getMyShips() {
+        try {
+            const shipsData = await this.fleetApi.getMyShips();
+            console.dir(shipsData);
+        } catch (e) {
+            console.log('Error getting ship list')
+        }
+        return []
+    }
+
     onStatusChange(callback: (ship: string, status: string) => void): Function {
         this.statusCallbacks.push(callback);
         return () => this.statusCallbacks = this.statusCallbacks.filter(savedCallback => savedCallback !== callback);
